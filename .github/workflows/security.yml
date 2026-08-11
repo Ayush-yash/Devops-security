@@ -1,0 +1,29 @@
+name: ShieldOps Security Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  security-scan:
+    name: Run ShieldOps Scanner
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dependencies
+        run: npm ci || npm install
+
+      - name: Run ShieldOps Security Scanner
+        run: node scanner-runner.js
+        env:
+          SHIELDOPS_API_URL: ${{ secrets.SHIELDOPS_API_URL || 'http://localhost:8080/api/v1' }}

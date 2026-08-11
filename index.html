@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShieldOps - DevSecOps Pipeline Security Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="M12 8v4"/>
+                    <path d="M12 16h.01"/>
+                </svg>
+                <span class="logo-text">ShieldOps</span>
+            </div>
+
+            <nav class="nav-links">
+                <button class="nav-btn active" data-tab="dashboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-btn" data-tab="pipelines">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    <span>Live Pipelines</span>
+                </button>
+                <button class="nav-btn" data-tab="vulnerabilities">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    <span>Vulnerabilities</span>
+                </button>
+                <button class="nav-btn" data-tab="policies">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    <span>Policy Engine</span>
+                </button>
+                <button class="nav-btn" data-tab="integrations">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                    <span>Integrations</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="system-status">
+                    <span class="pulse-indicator status-green"></span>
+                    <span>System: Healthy</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="content-header">
+                <div class="header-left">
+                    <h1 id="page-title">Dashboard Overview</h1>
+                    <p id="page-subtitle" class="text-secondary">Security metrics across 500+ pipelines</p>
+                </div>
+                <div class="header-right">
+                    <div class="search-bar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <input type="text" placeholder="Search projects or CVEs...">
+                    </div>
+                    <div class="user-profile">
+                        <div class="avatar" id="user-avatar">JD</div>
+                        <div class="user-info">
+                            <select id="select-user-role" class="form-select" style="background: none; border: none; padding: 0; font-size: 0.875rem; font-weight: 700; color: var(--text-primary); cursor: pointer; outline: none;">
+                                <option value="SECURITY_LEAD">Jane Doe (Security Lead)</option>
+                                <option value="ADMIN">Admin User (Administrator)</option>
+                                <option value="DEVELOPER">Dave Dev (Developer)</option>
+                                <option value="VIEWER">Val View (Viewer/Auditor)</option>
+                            </select>
+                            <span class="user-role" id="user-role-label">System RBAC isolation: active</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dynamic Tab Content Container -->
+            <div class="tab-viewport">
+                
+                <!-- TAB 1: DASHBOARD -->
+                <section class="tab-content active" id="tab-dashboard">
+                    <!-- Key Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label text-secondary">Total Projects</span>
+                                <div class="stat-icon-bg primary">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="dashboard-total-projects">0</div>
+                            <div class="stat-footer text-success">
+
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                                <span>+12% this week</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label text-secondary">Critical Blocked</span>
+                                <div class="stat-icon-bg danger">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="blocked-count">34</div>
+                            <div class="stat-footer text-danger">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+                                <span>+4 scan gates triggered</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label text-secondary">Total Vulnerabilities</span>
+                                <div class="stat-icon-bg warning">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="total-vuln-count">1,289</div>
+                            <div class="stat-footer text-success">
+                                <span>-8% resolved automatically</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label text-secondary">Security Health Score</span>
+                                <div class="stat-icon-bg success">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="dashboard-health-score">100</div>
+                            <div class="stat-footer text-success" id="health-score-footer">
+                                <span>Based on open vulnerabilities</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts & Recent Activity -->
+                    <div class="dashboard-details">
+                        <div class="chart-container-card">
+                            <div class="card-header">
+                                <h3>Vulnerability Trends</h3>
+                                <span class="text-secondary">Severity distribution across all project scans</span>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="trendsChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="activity-card">
+                            <div class="card-header">
+                                <h3>Recent Security Alerts</h3>
+                                <button class="btn btn-text text-primary">View All</button>
+                            </div>
+                            <div class="activity-timeline" id="recent-alerts-list">
+                                <!-- Loaded dynamically via app.js -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 2: LIVE PIPELINES -->
+                <section class="tab-content" id="tab-pipelines">
+                    <div class="control-row">
+                        <h2>Active CI/CD Scan Runs</h2>
+                        <button class="btn btn-primary" id="btn-trigger-pipeline">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            Trigger Demo Pipeline
+                        </button>
+                    </div>
+
+                    <div class="pipelines-container">
+                        <div class="pipelines-list" id="pipelines-list">
+                            <!-- Dynamic pipeline items go here -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 3: VULNERABILITIES -->
+                <section class="tab-content" id="tab-vulnerabilities">
+                    <div class="filter-bar">
+                        <div class="filter-group">
+                            <button class="btn btn-outline filter-btn active" data-severity="all">All</button>
+                            <button class="btn btn-outline filter-btn" data-severity="CRITICAL">Critical</button>
+                            <button class="btn btn-outline filter-btn" data-severity="HIGH">High</button>
+                            <button class="btn btn-outline filter-btn" data-severity="MEDIUM">Medium</button>
+                            <button class="btn btn-outline filter-btn" data-severity="LOW">Low</button>
+                        </div>
+                        <div class="filter-group">
+                            <select id="select-scanner-type" class="form-select">
+                                <option value="all">All Scanners</option>
+                                <option value="SAST">SAST</option>
+                                <option value="SCA">SCA (Dependencies)</option>
+                                <option value="SECRETS">Secrets</option>
+                                <option value="CONTAINER_SCAN">Container</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="vulnerability-table-card">
+                        <table class="vuln-table">
+                            <thead>
+                                <tr>
+                                    <th>Severity</th>
+                                    <th>Vulnerability / ID</th>
+                                    <th>Scanner</th>
+                                    <th>Project</th>
+                                    <th>File / Location</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vulnerabilities-tbody">
+                                <!-- Loaded dynamically via app.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- TAB 4: POLICY ENGINE -->
+                <section class="tab-content" id="tab-policies">
+                    <div class="policies-layout">
+                        <!-- Left Side: Interactive Toggles -->
+                        <div class="policies-toggles-card">
+                            <div class="card-header">
+                                <h3>Scan Rules & Gates</h3>
+                                <p class="text-secondary">Configure automated blocking behavior</p>
+                            </div>
+                            <div class="policy-list">
+                                <div class="policy-item-toggle">
+                                    <div class="policy-info">
+                                        <div class="policy-title-row">
+                                            <strong>Critical Vulnerability Block</strong>
+                                            <span class="badge badge-danger">Gate</span>
+                                        </div>
+                                        <p class="text-secondary">Block deployments if any CRITICAL severity issue is found in SAST or Container Scans.</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="policy-critical-block" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+
+                                <div class="policy-item-toggle">
+                                    <div class="policy-info">
+                                        <div class="policy-title-row">
+                                            <strong>Secrets Detector Gate</strong>
+                                            <span class="badge badge-danger">Gate</span>
+                                        </div>
+                                        <p class="text-secondary">Hard gate blocking pipelines immediately if credentials, API tokens, or secrets are leaked.</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="policy-secrets-block" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+
+                                <div class="policy-item-toggle">
+                                    <div class="policy-info">
+                                        <div class="policy-title-row">
+                                            <strong>License Blocklist Enforcer</strong>
+                                            <span class="badge badge-warning">Advisory</span>
+                                        </div>
+                                        <p class="text-secondary">Flags licenses like GPL-3.0 or AGPL-3.0. Turn off to allow builds with warnings.</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="policy-license-block" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+
+                                <div class="policy-item-toggle">
+                                    <div class="policy-info">
+                                        <div class="policy-title-row">
+                                            <strong>Approved Registry Checking</strong>
+                                            <span class="badge badge-danger">Gate</span>
+                                        </div>
+                                        <p class="text-secondary">Fail pipelines if base container image registry is not from target whitelist (e.g. EC2/GCR).</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="policy-registry-block">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Alerting Integrations Section -->
+                            <div class="card-header" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                                <h3>Alerting & Integration Channels</h3>
+                                <p class="text-secondary">Dispatch pipeline verdicts automatically</p>
+                            </div>
+                            <div class="policy-list">
+                                <div class="policy-item-toggle">
+                                    <div class="policy-info">
+                                        <div class="policy-title-row">
+                                            <strong>Slack Webhook Notification</strong>
+                                            <span class="badge badge-info" id="badge-slack-status">Active</span>
+                                        </div>
+                                        <p class="text-secondary">Post real-time scan gates and critical blocks to #security-alerts slack channel.</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="policy-slack-integration" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+
+                                <div class="policy-item-toggle">
+                                    <div class="policy-info">
+                                        <div class="policy-title-row">
+                                            <strong>Jira Auto-Ticketing</strong>
+                                            <span class="badge badge-info" id="badge-jira-status">Active</span>
+                                        </div>
+                                        <p class="text-secondary">Automatically open HIGH/CRITICAL Jira bugs assigned to target project leads.</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="policy-jira-integration" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                                
+                                <div class="policy-item-toggle">
+                                    <div class="policy-info">
+                                        <div class="policy-title-row">
+                                            <strong>Email Notifications</strong>
+                                            <span class="badge badge-info" id="badge-email-status">Active</span>
+                                        </div>
+                                        <p class="text-secondary">Send email digests to security leadership for blocked pipelines and critical findings.</p>
+                                    </div>
+                                    <label class="switch">
+                                        <input type="checkbox" id="policy-email-integration" checked>
+                                        <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Side: Rego Code Preview -->
+                        <div class="policy-rego-card">
+                            <div class="card-header">
+                                <h3>OPA Rego Rules (Live Generated)</h3>
+                                <span class="text-secondary">Open Policy Agent definition file</span>
+                            </div>
+                            <div class="code-editor-area">
+                                <pre><code class="language-rego" id="rego-output"># Loading OPA Rego policy configuration...</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 5: INTEGRATIONS -->
+                <section class="tab-content" id="tab-integrations">
+                    <div class="integrations-grid">
+                        <div class="integration-card">
+                            <div class="integration-header">
+                                <div class="cicd-logo github">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                                </div>
+                                <h3>GitHub Actions</h3>
+                            </div>
+                            <p class="text-secondary">Integrate security scan checks directly using our custom pipeline action.</p>
+                            <div class="code-snippet-box">
+                                <pre><code>- name: ShieldOps Security Gate
+  uses: shieldops/security-action@v1
+  with:
+    client_id: ${{ secrets.SHIELDOPS_CLIENT_ID }}
+    client_secret: ${{ secrets.SHIELDOPS_CLIENT_SECRET }}</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="integration-card">
+                            <div class="integration-header">
+                                <div class="cicd-logo gitlab">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="m23.951 13.585-1.478-4.553a.368.368 0 0 0-.106-.178.36.36 0 0 0-.206-.067.362.362 0 0 0-.256.096.38.38 0 0 0-.106.19l-1.921 5.91H4.072l-1.92-5.91a.382.382 0 0 0-.107-.19.362.362 0 0 0-.256-.096.36.36 0 0 0-.206.067.368.368 0 0 0-.106.178L.049 13.585a.738.738 0 0 0 .073.593.753.753 0 0 0 .423.336L12 18.067l11.455-3.553a.753.753 0 0 0 .423-.336.738.738 0 0 0 .073-.593Z"/></svg>
+                                </div>
+                                <h3>GitLab CI</h3>
+                            </div>
+                            <p class="text-secondary">Add security scans as a gating stage within your `.gitlab-ci.yml` build runs.</p>
+                            <div class="code-snippet-box">
+                                <pre><code>shieldops-scan:
+  stage: test
+  image: shieldops/runner-cli:latest
+  script:
+    - shieldops scan --fail-on-critical true
+  only:
+    - merge_requests</code></pre>
+                            </div>
+                        </div>
+
+                        <div class="integration-card">
+                            <div class="integration-header">
+                                <div class="cicd-logo jenkins">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.9 0C5.3 0 0 5.3 0 11.9c0 6.6 5.3 11.9 11.9 11.9 6.6 0 11.9-5.3 11.9-11.9C23.8 5.3 18.5 0 11.9 0zm.6 15.9c-.3.3-.8.5-1.2.5s-.9-.2-1.2-.5c-.3-.3-.5-.8-.5-1.2 0-.4.2-.9.5-1.2.3-.3.8-.5 1.2-.5s.9.2 1.2.5c.3.3.5.8.5 1.2.1.4-.1.9-.5 1.2zm.4-4.8c0 .2-.1.4-.2.5-.2.1-.4.2-.6.2s-.4-.1-.6-.2c-.1-.1-.2-.3-.2-.5V7.4c0-.2.1-.4.2-.5.2-.1.4-.2.6-.2s.4.1.6.2c.1.1.2.3.2.5v3.7z"/></svg>
+                                </div>
+                                <h3>Jenkins Pipeline</h3>
+                            </div>
+                            <p class="text-secondary">Integrate within declarative pipelines using the ShieldOps shared steps module.</p>
+                            <div class="code-snippet-box">
+                                <pre><code>stage('Security Scan') {
+    steps {
+        shieldopsScan(
+            clientId: 'SHIELDOPS_CLIENT_ID',
+            credentialsId: 'shieldops-auth-token',
+            failBuild: true
+        )
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Vulnerability Detail Modal -->
+    <div class="modal-backdrop" id="vuln-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="modal-title">Vulnerability Details</h3>
+                <button class="btn-close" id="btn-close-modal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body-content">
+                <!-- Dynamically loaded content -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="btn-modal-waive">Request Temporary Waiver</button>
+                <button class="btn btn-primary" id="btn-modal-remediate">Apply Auto-Remediation</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pipeline Logs Modal -->
+    <div class="modal-backdrop" id="logs-modal">
+        <div class="modal-card modal-large" style="width: 80%; max-width: 900px; display: flex; flex-direction: column; height: 80vh;">
+            <div class="modal-header">
+                <h3 id="logs-modal-title">Pipeline Logs</h3>
+                <button class="btn-close" id="btn-close-logs-modal">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body" id="logs-modal-body" style="background-color: #0b0f19; color: #a5b4fc; font-family: 'JetBrains Mono', monospace; flex: 1; overflow-y: auto; padding: 1rem; border-radius: 0 0 12px 12px; font-size: 0.9rem;">
+                <!-- Logs will be streamed here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

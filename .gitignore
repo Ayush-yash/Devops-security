@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Environment configurations
+.env
+.env.test
+
+# Testing
+coverage/
+
+# IDE / System files
+.system_generated/
+.gemini/
+.agents/
+.idea/
+.vscode/
+*.log
