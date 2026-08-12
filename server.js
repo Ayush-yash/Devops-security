@@ -172,6 +172,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 8080;
 
 const {
@@ -246,10 +247,13 @@ app.use(helmet({
 }));
 
 // Strict CORS Policy Configuration
-const corsOptions = {
-    origin: (origin, callback) => {
-        if (!origin) return callback(null, true);
-        
+const corsOptions = (req, callback) => {
+    const origin = req.header('Origin');
+    let allowed = false;
+    
+    if (!origin) {
+        allowed = true;
+    } else {
         const allowedOrigins = [
             'http://localhost:8080',
             'http://127.0.0.1:8080'
@@ -259,13 +263,20 @@ const corsOptions = {
             allowedOrigins.push(...process.env.CORS_ALLOWED_ORIGINS.split(','));
         }
         
-        if (allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
+        const host = req.get('host');
+        const protocol = req.protocol;
+        const sameOriginUrl = `${protocol}://${host}`;
+        
+        if (allowedOrigins.indexOf(origin) !== -1 || origin === sameOriginUrl) {
+            allowed = true;
         }
-    },
-    credentials: true
+    }
+    
+    if (allowed) {
+        callback(null, { origin: true, credentials: true });
+    } else {
+        callback(new Error('Not allowed by CORS'));
+    }
 };
 app.use(cors(corsOptions));
 
