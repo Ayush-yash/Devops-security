@@ -4,7 +4,9 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     // API Server configuration
-    const API_BASE = "http://localhost:8080/api/v1";
+    const API_BASE = window.location.origin.startsWith('file://')
+        ? "http://localhost:8080/api/v1"
+        : `${window.location.origin}/api/v1`;
 
     let state = {
         blockedCount: 0,
