@@ -649,17 +649,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span><code>${vuln.file}:${vuln.line}</code></span>
                 </div>
             </div>
-            
             ${vuln.waiverStatus ? `
             <div class="modal-metadata" style="margin-top: 1rem; border-color: var(--warning); background: rgba(245, 158, 11, 0.05); display: flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; width: 100%; padding: 1rem; border: 1px solid var(--border-color); border-radius: var(--border-radius);">
                 <div class="meta-item" style="width: 100%; display: flex; justify-content: space-between;">
                     <span>Waiver Status</span>
-                </div>` : ''}
+                    <span>${vuln.waiverStatus}</span>
+                </div>
                 <div class="meta-item" style="width: 100%; display: flex; justify-content: space-between;">
                     <span>Expires At</span>
                     <span>${new Date(vuln.waiverExpiresAt).toLocaleString()}</span>
                 </div>
-                <div style="width: 100%; margin-top: 0.25rem; font-size: 0.85rem; color: var(--text-secondary); border-top: 1px solid var(--border-color); padding-top: 0.5rem;">
+                <div class="meta-item" style="width: 100%; margin-top: 0.25rem; font-size: 0.85rem; color: var(--text-secondary); border-top: 1px solid var(--border-color); padding-top: 0.5rem;">
                     <strong>Reason:</strong> ${vuln.waiverReason}
                 </div>
             </div>
