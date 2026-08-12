@@ -55,9 +55,10 @@ async function initDatabase() {
             logger.info("Schema initialized successfully and default values seeded.");
         } else {
             logger.info("Database schema already exists. Skipping initialization.");
+        }
             
-            // Phase 8: Ensure waivers table exists
-            const checkWaiversRes = await client.query(`
+        // Phase 8: Ensure waivers table exists
+        const checkWaiversRes = await client.query(`
                 SELECT EXISTS (
                     SELECT FROM pg_tables 
                     WHERE schemaname = 'public' 
@@ -178,7 +179,6 @@ async function initDatabase() {
                 
                 logger.info("Scan Jobs migration complete.");
             }
-        }
     } catch (err) {
         logger.error("Error running database migrations", { error: err });
         throw err;
