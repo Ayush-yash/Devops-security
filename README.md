@@ -57,28 +57,7 @@ ShieldOps is an advanced, production-hardened **DevSecOps Platform** designed to
 
 ## 🏗️ Architecture Design
 
-```
-                           +------------------------+
-                           |  Developer / GitHub    |
-                           +-----------+------------+
-                                       | (HTTP Push/Webhook)
-                                       v
-                           +-----------+------------+
-                           |   API Server / Gateway | <----+ (Prometheus Scrape)
-                           +-----+--------------+---+
-                                 |              |
-                    (Write Job)  |              | (SSE Real-time logs)
-                                 v              v
-      +------------+       +-----+----+   +-----+------+
-      | PostgreSQL | <==== | Job Queue|   | Web UI     |
-      | Database   |       +-----+----+   +------------+
-      +-----+------+             |
-            ^                    | (FIFO / SKIP LOCKED Pick-up)
-            |                    v
-            +================== +----------------------+
-                                | Scan Worker Instance |
-                                +----------------------+
-```
+![ShieldOps Architecture Design Diagram](architecture.png)
 
 ---
 
