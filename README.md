@@ -9,6 +9,15 @@
 
 ShieldOps is an advanced, production-hardened **DevSecOps Platform** designed to orchestrate, analyze, and gate security pipeline scans. It features a completely decoupled, asynchronous worker-based queue architecture, robust API security controls, real-time log streaming using Server-Sent Events (SSE), Open Policy Agent (OPA) gate validation, and full Prometheus/Grafana observability.
 
+## 📑 Table of Contents
+- [Key Features & Industrial Standards](#-key-features--industrial-standards)
+- [Tech Stack](#%EF%B8%8F-tech-stack)
+- [Architecture Design](#%EF%B8%8F-architecture-design)
+- [Screenshots](#-screenshots)
+- [Getting Started](#-getting-started)
+- [Testing](#-testing)
+- [License](#-license)
+
 ---
 
 ## 🚀 Key Features & Industrial Standards
@@ -70,6 +79,16 @@ ShieldOps is an advanced, production-hardened **DevSecOps Platform** designed to
                                 | Scan Worker Instance |
                                 +----------------------+
 ```
+
+---
+
+## 📸 Screenshots
+
+*(Add visual proof of your working dashboard here! You can save your screenshots in a `screenshots/` directory and link them).*
+
+- **Dashboard Overview**: Metrics view showing overall project vulnerability health, open issues, and policies.
+- **Live Logs (SSE)**: Real-time scan execution output stream.
+- **Observability (Grafana)**: Dynamic metrics charts for API load, scan durations, and worker queue health.
 
 ---
 
