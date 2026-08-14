@@ -99,7 +99,31 @@ ShieldOps is an advanced, production-hardened **DevSecOps Platform** designed to
 4. **Access the Services**:
    - **ShieldOps Dashboard**: `http://localhost:8080`
    - **Prometheus Dashboard**: `http://localhost:9090`
-   - **Grafana Observability**: `http://localhost:3000` (Default Credentials: `admin` / `admin`)
+   - **Grafana Observability**: `http://localhost:3050` (Default Credentials: `admin` / `admin`)
+
+### Production Deployment (Render)
+To deploy this platform live in production on Render:
+
+1. **Deploy PostgreSQL Database**:
+   - Create a new **PostgreSQL** instance on Render.
+   - Note the **Internal Database URL** for other services.
+
+2. **Deploy Web Service (API + UI)**:
+   - Create a new **Web Service** pointing to your GitHub repository.
+   - Set **Build Command**: `npm install`
+   - Set **Start Command**: `npm start`
+   - Add environment variables:
+     - `PORT`: `8080` (or leave default)
+     - `DATABASE_URL`: *[Your Render Internal Database URL]*
+     - `GITHUB_WEBHOOK_SECRET`: *[Your secret key]*
+     - `CORS_ALLOWED_ORIGINS`: `https://your-custom-domain.com` (if applicable)
+
+3. **Deploy Background Worker**:
+   - Create a new **Background Worker** pointing to your GitHub repository.
+   - Set **Runtime**: `Docker`
+   - Set **Dockerfile Path**: `Dockerfile.worker`
+   - Add environment variable:
+     - `DATABASE_URL`: *[Your Render Internal Database URL]*
 
 ---
 
